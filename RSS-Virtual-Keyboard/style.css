@@ -15,12 +15,12 @@
 }
 
 .text-box {
-  min-height: 35px;
+  min-height: 120px;
   padding: 10px;
   border: 3px solid gray;
   border-radius: 10px;
 
-  width: 560px;
+  width: 1000px;
   word-wrap: break-word;
 }
 
@@ -36,7 +36,10 @@ button {
   color: white;
   padding: 20px;
   border: 2px solid rgb(28, 28, 28);
+  border-radius: 4px;
   transition: all 0.3s ease;
+  margin: 2px;
+  text-align: center;
 }
 
 button:hover {
@@ -49,13 +52,13 @@ button:hover {
 }
 
 .letter {
-  width: 40px;
-  height: 40px;
+  width: 17px;
+  height: 17px;
   background-color: #3a424e;
-  text-align: center;
+  /* text-align: center; */
   /* align-items: center; */
-  margin: 2px;
-  border-radius: 4px;
+  
+ 
 }
 
 .active {
@@ -65,4 +68,26 @@ button:hover {
 
 .active:hover {
   background-color: green;
+}
+
+#Space {
+  width: 385px;
+}
+
+#Backspace {
+  width: 94px;
+}
+
+#CapsLock,
+#Enter,
+#ShiftRight,
+#ShiftLeft  {
+  width: 88px;
+}
+
+#ArrowUp,
+#ArrowDown {
+  width: 17px;
+  height: 17px;
+  
 }
