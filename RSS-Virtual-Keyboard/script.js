@@ -8,6 +8,7 @@ if (localStorage.getItem('langStorage') === 'en') {
 }
 const langStorage = 'langStorage';
 
+
 const letterBtnObj1 = [
   {
     code: 'Backquote',
@@ -370,6 +371,10 @@ const keyboard = document.createElement('div');
 keyboard.classList.add('keyboard');
 wrapper.appendChild(keyboard);
 
+// keyboard.onmousedown = function (event) {
+//   event.preventDefault();
+// }
+
 const lineFirst = document.createElement('div');
 lineFirst.classList.add('line');
 lineFirst.classList.add('line1');
@@ -594,6 +599,7 @@ lineFifth.appendChild(spaceBtn);
 
 spaceBtn.onclick = function () {
   textBox.value += ' ';
+  textBox.focus();
 };
 
 const altBtnRight = document.createElement('button');
@@ -633,12 +639,21 @@ const allLetterBtn = document.querySelectorAll('.letter');
 
 allLetterBtn.forEach((letterBtn) => {
   letterBtn.addEventListener('mousedown', () => {
-    textBox.value += letterBtn.textContent;
+    const str = textBox.value;
+// const index = 6; индекс, куда нужно добавить символы
+const charsToAdd = letterBtn.textContent; // символы, которые нужно добавить
+const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    textBox.value = newStr;
     letterBtn.classList.add('active');
+    // textBox.focus();
+    
+    
   });
 
   letterBtn.addEventListener('mouseup', () => {
     letterBtn.classList.remove('active');
+    // textBox.focus();
+    textareaIndex = textBox.selectionStart;
   });
 });
 
@@ -709,24 +724,21 @@ changeLanguageTest();
 
 backspaceBtn.addEventListener('mousedown', () => {
   backspaceBtn.classList.add('active');
+  // let str = textBox.value;
+  // str = str.slice(0, -1);
+  // textBox.value = str; str = str.substring(0, str.length - 1);
   let str = textBox.value;
-  str = str.slice(0, -1);
+  if(textareaIndex === 0){
+    textareaIndex = (str.length-1)
+  }
+
+  str = str.slice(0, textareaIndex-1) + str.slice(textareaIndex);
+  textareaIndex = textareaIndex-1
   textBox.value = str;
 });
 backspaceBtn.addEventListener('mouseup',() => {
   backspaceBtn.classList.remove('active');
 });
-
-deleteBtn.addEventListener('mousedown', () => {
-  let str = textBox.value;
-  console.log('str do', str)
-  str = str.split('').splice(textareaIndex, 1).join()
-  console.log('str ', str)
-  console.log('textareaIndex ', textareaIndex)
-  textBox.value = str;
-})
-
-
 
 enterBtn.onclick = function () {
   textBox.value += '\n';
@@ -865,15 +877,16 @@ arrowDown.addEventListener('mousedown', () => {
 
 let isControlDown = false;
 let isAltDown = false;
-document.addEventListener('click', () => {
-  event.preventDefault()
-});
+// document.addEventListener('click', () => {
+//   event.preventDefault()
+// });
 document.onkeydown = function (event) {
-  event.preventDefault()
+  
   textBox.focus();
   const c = `#${event.code}`;
   console.log('c', c);
   if (event.code === 'CapsLock') {
+    event.preventDefault();
     capsBtn.classList.toggle('active');
     if (shiftLeftBtn.classList.contains('active')) {
       allLetterBtn.forEach((letterBtn) => {
@@ -890,32 +903,42 @@ document.onkeydown = function (event) {
     }
     // console.log('СРАБАТЫВАЕТ');
   } else if (event.code === 'Tab'){
+    event.preventDefault();
     textBox.value += '\t';
     document.querySelector(c).classList.add('active');
   } else if (event.code === 'Enter'){
+    event.preventDefault();
     textBox.value += '\n';
     document.querySelector(c).classList.add('active');
+    textareaIndex = textBox.selectionStart;
   } else if(event.code === 'ArrowUp') {
+    event.preventDefault();
     textBox.value += '↑'
     document.querySelector(c).classList.add('active');
   } else if(event.code === 'ArrowLeft') {
+    event.preventDefault();
     textBox.value += '←'
     document.querySelector(c).classList.add('active');
   } else if(event.code === 'ArrowDown') {
+    event.preventDefault();
     textBox.value += '↓'
     document.querySelector(c).classList.add('active');
   } else if(event.code === 'ArrowRight') {
+    event.preventDefault();
     textBox.value += '→'
     document.querySelector(c).classList.add('active');
   } else if(event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
+    event.preventDefault();
     document.querySelector(c).classList.add('active');
     changeShift();
     if (capsBtn.classList.contains('active')) {
+      event.preventDefault();
       allLetterBtn.forEach((letterBtn) => {
         letterBtn.textContent = letterBtn.textContent.toUpperCase();
       });
     }
   } else if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
+    event.preventDefault();
       document.querySelector(c).classList.add('active');
       isControlDown = true
       if (isAltDown === true) {
@@ -932,6 +955,7 @@ document.onkeydown = function (event) {
       }
       
   } else if (event.code === 'AltLeft' || event.code === 'AltRight') {
+    event.preventDefault();
       console.log('altvnutri')
       textBox.focus();
       isAltDown = true
@@ -950,11 +974,20 @@ document.onkeydown = function (event) {
           changeLanguageTest();
         }
          
+      } else if (event.code === 'Backspace') {
+        document.querySelector(c).classList.add('active');
+      } else if (event.code === 'Delete') {
+        document.querySelector(c).classList.add('active');
+      } else if (event.code === 'Space') {
+        textBox.value += ' ';
+        document.querySelector(c).classList.add('active');
+        textareaIndex = textBox.selectionStart;
       } else {
+        event.preventDefault();
     // console.log(c)
     document.querySelector(c).classList.add('active');
     textBox.value += document.querySelector(c).textContent
-   
+    textareaIndex = textBox.selectionStart;
   }
 };
 
@@ -996,4 +1029,18 @@ document.onkeyup = function (event) {
 };
 
 // const textarea = document.querySelector('textarea');
+
+
+
+deleteBtn.addEventListener('mousedown', () => {
+  deleteBtn.classList.add('active');
+  let str = textBox.value;
+
+  str = str.slice(0, textareaIndex) + str.slice(textareaIndex+1);
+  textBox.value = str;
+})
+
+deleteBtn.addEventListener('mouseup', () => {
+  deleteBtn.classList.remove('active');
+})
 
