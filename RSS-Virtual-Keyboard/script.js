@@ -356,9 +356,8 @@ document.body.appendChild(wrapper);
 
 const textBox = document.createElement('textarea');
 textBox.classList.add('text-box');
-textBox.placeholder =
-  'Клавиатура создана в операционной системе Windows\nДля переключения языка комбинация: ctrl + alt';
-    textBox.autofocus = true;
+textBox.placeholder = 'Клавиатура создана в операционной системе Windows\nДля переключения языка комбинация: ctrl + alt';
+textBox.autofocus = true;
 wrapper.appendChild(textBox);
 
 let textareaIndex = 0;
@@ -495,9 +494,8 @@ lineSecond.prepend(tabBtn);
 
 tabBtn.addEventListener('mousedown', () => {
   const str = textBox.value;
-  const charsToAdd = '\t'; 
-  const newStr =
-    str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+  const charsToAdd = '\t';
+  const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
   textBox.value = newStr;
   // textBox.focus();
   textareaIndex += 1;
@@ -577,10 +575,8 @@ spaceBtn.addEventListener('mousedown', () => {
   spaceBtn.classList.add('active');
   const str = textBox.value;
   const charsToAdd = ' ';
-  const newStr =
-    str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+  const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
   textBox.value = newStr;
-  letterBtn.classList.add('active');
   // textBox.focus();
   textareaIndex += 1;
 });
@@ -625,9 +621,8 @@ const allLetterBtn = document.querySelectorAll('.letter');
 allLetterBtn.forEach((letterBtn) => {
   letterBtn.addEventListener('mousedown', () => {
     const str = textBox.value;
-    const charsToAdd = letterBtn.textContent; 
-    const newStr =
-      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    const charsToAdd = letterBtn.textContent;
+    const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
     textBox.value = newStr;
     letterBtn.classList.add('active');
     // textBox.focus();
@@ -713,7 +708,7 @@ backspaceBtn.addEventListener('mousedown', () => {
   }
 
   str = str.slice(0, textareaIndex - 1) + str.slice(textareaIndex);
-  textareaIndex = textareaIndex - 1;
+  textareaIndex -= 1;
   textBox.value = str;
 });
 backspaceBtn.addEventListener('mouseup', () => {
@@ -723,8 +718,7 @@ backspaceBtn.addEventListener('mouseup', () => {
 enterBtn.addEventListener('mousedown', () => {
   const str = textBox.value;
   const charsToAdd = '\n';
-  const newStr =
-    str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+  const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
   textBox.value = newStr;
   enterBtn.classList.add('active');
   textareaIndex += 1;
@@ -898,8 +892,7 @@ capsBtn.onclick = function () {
 arrowUp.addEventListener('mousedown', () => {
   const str = textBox.value;
   const charsToAdd = '↑';
-  const newStr =
-    str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+  const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
   textBox.value = newStr;
   arrowUp.classList.add('active');
   // textBox.focus();
@@ -912,8 +905,7 @@ arrowUp.addEventListener('mouseup', () => {
 arrowLeft.addEventListener('mousedown', () => {
   const str = textBox.value;
   const charsToAdd = '←'; // символы, которые нужно добавить
-  const newStr =
-    str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+  const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
   textBox.value = newStr;
   arrowLeft.classList.add('active');
   textareaIndex += 1;
@@ -925,8 +917,7 @@ arrowLeft.addEventListener('mouseup', () => {
 arrowRight.addEventListener('mousedown', () => {
   const str = textBox.value;
   const charsToAdd = '→'; // символы, которые нужно добавить
-  const newStr =
-    str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+  const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
   textBox.value = newStr;
   arrowRight.classList.add('active');
   textareaIndex += 1;
@@ -938,8 +929,7 @@ arrowRight.addEventListener('mouseup', () => {
 arrowDown.addEventListener('mousedown', () => {
   const str = textBox.value;
   const charsToAdd = '↓'; // символы, которые нужно добавить
-  const newStr =
-    str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+  const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
   textBox.value = newStr;
   arrowDown.classList.add('active');
   textareaIndex += 1;
@@ -977,9 +967,8 @@ document.onkeydown = function (event) {
   } else if (event.code === 'Tab') {
     event.preventDefault();
     const str = textBox.value;
-    const charsToAdd = '\t'; 
-    const newStr =
-      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    const charsToAdd = '\t';
+    const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
     textBox.value = newStr;
     textareaIndex += 1;
     document.querySelector(c).classList.add('active');
@@ -987,17 +976,15 @@ document.onkeydown = function (event) {
     event.preventDefault();
     const str = textBox.value;
     const charsToAdd = '\n';
-    const newStr =
-      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
     textBox.value = newStr;
     textareaIndex += 1;
     document.querySelector(c).classList.add('active');
   } else if (event.code === 'ArrowUp') {
     event.preventDefault();
     const str = textBox.value;
-    const charsToAdd = '↑'; 
-    const newStr =
-      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    const charsToAdd = '↑';
+    const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
     textBox.value = newStr;
     arrowUp.classList.add('active');
     // textBox.focus();
@@ -1006,9 +993,8 @@ document.onkeydown = function (event) {
   } else if (event.code === 'ArrowLeft') {
     event.preventDefault();
     const str = textBox.value;
-    const charsToAdd = '←'; 
-    const newStr =
-      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    const charsToAdd = '←';
+    const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
     textBox.value = newStr;
     arrowLeft.classList.add('active');
     textareaIndex += 1;
@@ -1017,9 +1003,8 @@ document.onkeydown = function (event) {
   } else if (event.code === 'ArrowDown') {
     event.preventDefault();
     const str = textBox.value;
-    const charsToAdd = '↓'; 
-    const newStr =
-      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    const charsToAdd = '↓';
+    const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
     textBox.value = newStr;
     arrowDown.classList.add('active');
     textareaIndex += 1;
@@ -1027,9 +1012,8 @@ document.onkeydown = function (event) {
   } else if (event.code === 'ArrowRight') {
     event.preventDefault();
     const str = textBox.value;
-    const charsToAdd = '→'; 
-    const newStr =
-      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    const charsToAdd = '→';
+    const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
     textBox.value = newStr;
     arrowRight.classList.add('active');
     textareaIndex += 1;
@@ -1088,8 +1072,7 @@ document.onkeydown = function (event) {
     event.preventDefault();
     const str = textBox.value;
     const charsToAdd = ' ';
-    const newStr =
-      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
     textBox.value = newStr;
     textareaIndex += 1;
     document.querySelector(c).classList.add('active');
@@ -1100,9 +1083,8 @@ document.onkeydown = function (event) {
     event.preventDefault();
     document.querySelector(c).classList.add('active');
     const str = textBox.value;
-    const charsToAdd = document.querySelector(c).textContent; 
-    const newStr =
-      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    const charsToAdd = document.querySelector(c).textContent;
+    const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
     textBox.value = newStr;
     // letterBtn.classList.add('active');
     textareaIndex += 1;
