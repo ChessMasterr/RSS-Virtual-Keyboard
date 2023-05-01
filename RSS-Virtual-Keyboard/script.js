@@ -1094,6 +1094,8 @@ document.onkeydown = function (event) {
     textareaIndex += 1;
     document.querySelector(c).classList.add('active');
     // textareaIndex = textBox.selectionStart;
+  } else if (event.code === 'MetaLeft') {
+    document.querySelector(c).classList.add('active');
   } else {
     event.preventDefault();
     document.querySelector(c).classList.add('active');
