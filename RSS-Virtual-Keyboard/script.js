@@ -8,7 +8,6 @@ if (localStorage.getItem('langStorage') === 'en') {
 }
 const langStorage = 'langStorage';
 
-
 const letterBtnObj1 = [
   {
     code: 'Backquote',
@@ -357,15 +356,16 @@ document.body.appendChild(wrapper);
 
 const textBox = document.createElement('textarea');
 textBox.classList.add('text-box');
-textBox.autofocus = true;
+textBox.placeholder =
+  'Клавиатура создана в операционной системе Windows\nДля переключения языка комбинация: ctrl + alt';
+    textBox.autofocus = true;
 wrapper.appendChild(textBox);
 
-let textareaIndex = 0
+let textareaIndex = 0;
 textBox.addEventListener('click', () => {
-  
   console.log(textBox.selectionStart);
-  textareaIndex = textBox.selectionStart
-})
+  textareaIndex = textBox.selectionStart;
+});
 
 const keyboard = document.createElement('div');
 keyboard.classList.add('keyboard');
@@ -400,13 +400,6 @@ lineFifth.classList.add('line');
 keyboard.appendChild(lineFifth);
 
 // перебрал массивы с вставкой символов в кнопки
-// letterBtnArr1.forEach(function (letter) {
-//   // console.log("letter", letter)
-//   const letterBtn = document.createElement("button");
-//   letterBtn.classList.add("letter");
-//   letterBtn.textContent = letter;
-//   lineFirst.appendChild(letterBtn);
-// });
 
 const createFirstLine = function () {
   if (lang === 'en') {
@@ -492,27 +485,6 @@ const createFourthLine = function () {
 };
 createFourthLine();
 
-// letterBtnArr2.forEach(function (letter) {
-//   const letterBtn = document.createElement("button");
-//   letterBtn.classList.add("letter");
-//   letterBtn.textContent = letter;
-//   lineSecond.appendChild(letterBtn);
-// });
-
-// letterBtnArr3.forEach(function (letter) {
-//   const letterBtn = document.createElement("button");
-//   letterBtn.classList.add("letter");
-//   letterBtn.textContent = letter;
-//   lineThird.appendChild(letterBtn);
-// });
-
-// letterBtnArr4.forEach(function (letter) {
-//   const letterBtn = document.createElement("button");
-//   letterBtn.classList.add("letter");
-//   letterBtn.textContent = letter;
-//   lineFourth.appendChild(letterBtn);
-// });
-
 // добавил недостающие кнопки
 
 const tabBtn = document.createElement('button');
@@ -521,14 +493,19 @@ tabBtn.id = 'Tab';
 tabBtn.textContent = 'Tab';
 lineSecond.prepend(tabBtn);
 
-
 tabBtn.addEventListener('mousedown', () => {
-  textBox.value += '\t';
-  tabBtn.classList.add('active')
+  const str = textBox.value;
+  const charsToAdd = '\t'; 
+  const newStr =
+    str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+  textBox.value = newStr;
+  // textBox.focus();
+  textareaIndex += 1;
+  tabBtn.classList.add('active');
 });
 tabBtn.addEventListener('mouseup', () => {
-  textBox.focus();
-  tabBtn.classList.remove('active')
+  // textBox.focus();
+  tabBtn.classList.remove('active');
 });
 
 const backspaceBtn = document.createElement('button');
@@ -539,7 +516,7 @@ lineFirst.appendChild(backspaceBtn);
 
 const deleteBtn = document.createElement('button');
 deleteBtn.classList.add('delete-btn');
-deleteBtn.id = 'Delete'
+deleteBtn.id = 'Delete';
 deleteBtn.textContent = 'Del';
 lineSecond.appendChild(deleteBtn);
 
@@ -551,19 +528,19 @@ lineThird.prepend(capsBtn);
 
 const enterBtn = document.createElement('button');
 enterBtn.classList.add('enter-btn');
-enterBtn.id = 'Enter'
+enterBtn.id = 'Enter';
 enterBtn.textContent = 'Enter';
 lineThird.appendChild(enterBtn);
 
 const arrowUp = document.createElement('button');
 arrowUp.classList.add('arrow-up');
-arrowUp.id = 'ArrowUp'
+arrowUp.id = 'ArrowUp';
 arrowUp.textContent = '↑';
 lineFourth.appendChild(arrowUp);
 
 const shiftBtn = document.createElement('button');
 shiftBtn.classList.add('shift-btn-right');
-shiftBtn.id = 'ShiftRight'
+shiftBtn.id = 'ShiftRight';
 shiftBtn.textContent = 'Shift';
 lineFourth.appendChild(shiftBtn);
 
@@ -581,26 +558,37 @@ lineFifth.appendChild(ctrlBtn);
 
 const winBtn = document.createElement('button');
 winBtn.classList.add('win-btn');
-winBtn.id = 'MetaLeft'
+winBtn.id = 'MetaLeft';
 winBtn.textContent = 'Win';
 lineFifth.appendChild(winBtn);
 
 const altBtn = document.createElement('button');
 altBtn.classList.add('alt-btn-left');
-altBtn.id = 'AltLeft'
+altBtn.id = 'AltLeft';
 altBtn.textContent = 'Alt';
 lineFifth.appendChild(altBtn);
 
 const spaceBtn = document.createElement('button');
 spaceBtn.classList.add('space-btn');
-spaceBtn.id = 'Space'
-// spaceBtn.textContent = 'SPAAAAAAAAAAAAAAAAAAAAAAAAAAAAACCCCCCCCCCEEEEE';
+spaceBtn.id = 'Space';
 lineFifth.appendChild(spaceBtn);
 
-spaceBtn.onclick = function () {
-  textBox.value += ' ';
-  textBox.focus();
-};
+spaceBtn.addEventListener('mousedown', () => {
+  spaceBtn.classList.add('active');
+  const str = textBox.value;
+  const charsToAdd = ' ';
+  const newStr =
+    str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+  textBox.value = newStr;
+  letterBtn.classList.add('active');
+  // textBox.focus();
+  textareaIndex += 1;
+});
+spaceBtn.addEventListener('mouseup', () => {
+  spaceBtn.classList.remove('active');
+  // textBox.focus();
+  // textareaIndex = textBox.selectionStart;
+});
 
 const altBtnRight = document.createElement('button');
 altBtnRight.classList.add('alt-btn-right');
@@ -608,23 +596,21 @@ altBtnRight.id = 'AltRight';
 altBtnRight.textContent = 'Alt';
 lineFifth.appendChild(altBtnRight);
 
-
-
 const arrowLeft = document.createElement('button');
 arrowLeft.classList.add('arrow-left');
-arrowLeft.id = 'ArrowLeft'
+arrowLeft.id = 'ArrowLeft';
 arrowLeft.textContent = '←';
 lineFifth.appendChild(arrowLeft);
 
 const arrowDown = document.createElement('button');
 arrowDown.classList.add('arrow-down');
-arrowDown.id = 'ArrowDown'
+arrowDown.id = 'ArrowDown';
 arrowDown.textContent = '↓';
 lineFifth.appendChild(arrowDown);
 
 const arrowRight = document.createElement('button');
 arrowRight.classList.add('arrow-right');
-arrowRight.id = 'ArrowRight'
+arrowRight.id = 'ArrowRight';
 arrowRight.textContent = '→';
 lineFifth.appendChild(arrowRight);
 
@@ -635,25 +621,23 @@ ctrlBtnRight.textContent = 'Ctrl';
 lineFifth.appendChild(ctrlBtnRight);
 
 const allLetterBtn = document.querySelectorAll('.letter');
-// const allBtn = document.querySelectorAll('button');
 
 allLetterBtn.forEach((letterBtn) => {
   letterBtn.addEventListener('mousedown', () => {
     const str = textBox.value;
-// const index = 6; индекс, куда нужно добавить символы
-const charsToAdd = letterBtn.textContent; // символы, которые нужно добавить
-const newStr = str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    const charsToAdd = letterBtn.textContent; 
+    const newStr =
+      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
     textBox.value = newStr;
     letterBtn.classList.add('active');
     // textBox.focus();
-    
-    
+    textareaIndex += 1;
   });
 
   letterBtn.addEventListener('mouseup', () => {
     letterBtn.classList.remove('active');
     // textBox.focus();
-    textareaIndex = textBox.selectionStart;
+    // textareaIndex = textBox.selectionStart;
   });
 });
 
@@ -721,37 +705,67 @@ const changeLanguageTest = function () {
 };
 changeLanguageTest();
 
-
 backspaceBtn.addEventListener('mousedown', () => {
   backspaceBtn.classList.add('active');
-  // let str = textBox.value;
-  // str = str.slice(0, -1);
-  // textBox.value = str; str = str.substring(0, str.length - 1);
   let str = textBox.value;
-  if(textareaIndex === 0){
-    textareaIndex = (str.length-1)
+  if (textareaIndex === 0) {
+    textareaIndex = str.length - 1;
   }
 
-  str = str.slice(0, textareaIndex-1) + str.slice(textareaIndex);
-  textareaIndex = textareaIndex-1
+  str = str.slice(0, textareaIndex - 1) + str.slice(textareaIndex);
+  textareaIndex = textareaIndex - 1;
   textBox.value = str;
 });
-backspaceBtn.addEventListener('mouseup',() => {
+backspaceBtn.addEventListener('mouseup', () => {
   backspaceBtn.classList.remove('active');
 });
 
-enterBtn.onclick = function () {
-  textBox.value += '\n';
-};
+enterBtn.addEventListener('mousedown', () => {
+  const str = textBox.value;
+  const charsToAdd = '\n';
+  const newStr =
+    str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+  textBox.value = newStr;
+  enterBtn.classList.add('active');
+  textareaIndex += 1;
+});
+enterBtn.addEventListener('mouseup', () => {
+  enterBtn.classList.remove('active');
+});
 
-shiftBtn.onclick = function () {
-  shiftBtn.classList.toggle('active');
-  // allLetterBtn.forEach((letterBtn) => {
-  //   letterBtn.textContent = letterBtn.textContent.toUpperCase()
-  // })
-};
+ctrlBtnRight.addEventListener('mousedown', () => {
+  ctrlBtnRight.classList.add('active');
+});
+ctrlBtnRight.addEventListener('mouseup', () => {
+  ctrlBtnRight.classList.remove('active');
+});
 
-// console.log(capsBtn.classList.contains('active'));
+ctrlBtn.addEventListener('mousedown', () => {
+  ctrlBtn.classList.add('active');
+});
+ctrlBtn.addEventListener('mouseup', () => {
+  ctrlBtn.classList.remove('active');
+});
+
+altBtn.addEventListener('mousedown', () => {
+  altBtn.classList.add('active');
+});
+altBtn.addEventListener('mouseup', () => {
+  altBtn.classList.remove('active');
+});
+altBtnRight.addEventListener('mousedown', () => {
+  altBtnRight.classList.add('active');
+});
+altBtnRight.addEventListener('mouseup', () => {
+  altBtnRight.classList.remove('active');
+});
+
+winBtn.addEventListener('mousedown', () => {
+  winBtn.classList.add('active');
+});
+winBtn.addEventListener('mouseup', () => {
+  winBtn.classList.remove('active');
+});
 
 const changeShift = function () {
   if (capsBtn.classList.contains('active')) {
@@ -842,6 +856,27 @@ shiftLeftBtn.addEventListener('mouseup', () => {
   }
 });
 
+shiftBtn.addEventListener('mousedown', () => {
+  if (!shiftBtn.classList.contains('active')) {
+    shiftBtn.classList.add('active');
+    changeShift();
+    if (capsBtn.classList.contains('active')) {
+      allLetterBtn.forEach((letterBtn) => {
+        letterBtn.textContent = letterBtn.textContent.toLowerCase();
+      });
+    }
+  }
+});
+shiftBtn.addEventListener('mouseup', () => {
+  shiftBtn.classList.remove('active');
+  changeShift();
+  if (capsBtn.classList.contains('active')) {
+    allLetterBtn.forEach((letterBtn) => {
+      letterBtn.textContent = letterBtn.textContent.toUpperCase();
+    });
+  }
+});
+
 capsBtn.onclick = function () {
   capsBtn.classList.toggle('active');
   if (shiftLeftBtn.classList.contains('active')) {
@@ -861,28 +896,65 @@ capsBtn.onclick = function () {
 
 // Стрелки
 arrowUp.addEventListener('mousedown', () => {
-  textBox.value += '↑'
+  const str = textBox.value;
+  const charsToAdd = '↑';
+  const newStr =
+    str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+  textBox.value = newStr;
+  arrowUp.classList.add('active');
+  // textBox.focus();
+  textareaIndex += 1;
 });
+arrowUp.addEventListener('mouseup', () => {
+  arrowUp.classList.remove('active');
+});
+
 arrowLeft.addEventListener('mousedown', () => {
-  textBox.value += '←'
+  const str = textBox.value;
+  const charsToAdd = '←'; // символы, которые нужно добавить
+  const newStr =
+    str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+  textBox.value = newStr;
+  arrowLeft.classList.add('active');
+  textareaIndex += 1;
 });
+arrowLeft.addEventListener('mouseup', () => {
+  arrowLeft.classList.remove('active');
+});
+
 arrowRight.addEventListener('mousedown', () => {
-  textBox.value += '→'
+  const str = textBox.value;
+  const charsToAdd = '→'; // символы, которые нужно добавить
+  const newStr =
+    str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+  textBox.value = newStr;
+  arrowRight.classList.add('active');
+  textareaIndex += 1;
 });
+arrowRight.addEventListener('mouseup', () => {
+  arrowRight.classList.remove('active');
+});
+
 arrowDown.addEventListener('mousedown', () => {
-  textBox.value += '↓'
+  const str = textBox.value;
+  const charsToAdd = '↓'; // символы, которые нужно добавить
+  const newStr =
+    str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+  textBox.value = newStr;
+  arrowDown.classList.add('active');
+  textareaIndex += 1;
+});
+arrowDown.addEventListener('mouseup', () => {
+  arrowDown.classList.remove('active');
 });
 
 // переключение языка
 
 let isControlDown = false;
 let isAltDown = false;
-// document.addEventListener('click', () => {
-//   event.preventDefault()
-// });
+
 document.onkeydown = function (event) {
-  
-  textBox.focus();
+  // textBox.focus();
   const c = `#${event.code}`;
   console.log('c', c);
   if (event.code === 'CapsLock') {
@@ -902,32 +974,68 @@ document.onkeydown = function (event) {
       });
     }
     // console.log('СРАБАТЫВАЕТ');
-  } else if (event.code === 'Tab'){
+  } else if (event.code === 'Tab') {
     event.preventDefault();
-    textBox.value += '\t';
+    const str = textBox.value;
+    const charsToAdd = '\t'; 
+    const newStr =
+      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    textBox.value = newStr;
+    textareaIndex += 1;
     document.querySelector(c).classList.add('active');
-  } else if (event.code === 'Enter'){
+  } else if (event.code === 'Enter') {
     event.preventDefault();
-    textBox.value += '\n';
+    const str = textBox.value;
+    const charsToAdd = '\n';
+    const newStr =
+      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    textBox.value = newStr;
+    textareaIndex += 1;
     document.querySelector(c).classList.add('active');
-    textareaIndex = textBox.selectionStart;
-  } else if(event.code === 'ArrowUp') {
+  } else if (event.code === 'ArrowUp') {
     event.preventDefault();
-    textBox.value += '↑'
+    const str = textBox.value;
+    const charsToAdd = '↑'; 
+    const newStr =
+      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    textBox.value = newStr;
+    arrowUp.classList.add('active');
+    // textBox.focus();
+    textareaIndex += 1;
     document.querySelector(c).classList.add('active');
-  } else if(event.code === 'ArrowLeft') {
+  } else if (event.code === 'ArrowLeft') {
     event.preventDefault();
-    textBox.value += '←'
+    const str = textBox.value;
+    const charsToAdd = '←'; 
+    const newStr =
+      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    textBox.value = newStr;
+    arrowLeft.classList.add('active');
+    textareaIndex += 1;
+
     document.querySelector(c).classList.add('active');
-  } else if(event.code === 'ArrowDown') {
+  } else if (event.code === 'ArrowDown') {
     event.preventDefault();
-    textBox.value += '↓'
+    const str = textBox.value;
+    const charsToAdd = '↓'; 
+    const newStr =
+      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    textBox.value = newStr;
+    arrowDown.classList.add('active');
+    textareaIndex += 1;
     document.querySelector(c).classList.add('active');
-  } else if(event.code === 'ArrowRight') {
+  } else if (event.code === 'ArrowRight') {
     event.preventDefault();
-    textBox.value += '→'
+    const str = textBox.value;
+    const charsToAdd = '→'; 
+    const newStr =
+      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    textBox.value = newStr;
+    arrowRight.classList.add('active');
+    textareaIndex += 1;
+
     document.querySelector(c).classList.add('active');
-  } else if(event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
+  } else if (event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
     event.preventDefault();
     document.querySelector(c).classList.add('active');
     changeShift();
@@ -939,108 +1047,102 @@ document.onkeydown = function (event) {
     }
   } else if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
     event.preventDefault();
-      document.querySelector(c).classList.add('active');
-      isControlDown = true
-      if (isAltDown === true) {
-        if (lang === 'ru') {
-          lang = 'en';
-          localStorage.setItem(langStorage, 'en');
-          console.log('ru - en')
-        } else {
-          lang = 'ru';
-          localStorage.setItem(langStorage, 'ru');
-          console.log('en - ru')
-        }
-        changeLanguageTest();
+    document.querySelector(c).classList.add('active');
+    isControlDown = true;
+    if (isAltDown === true) {
+      if (lang === 'ru') {
+        lang = 'en';
+        localStorage.setItem(langStorage, 'en');
+        console.log('ru - en');
+      } else {
+        lang = 'ru';
+        localStorage.setItem(langStorage, 'ru');
+        console.log('en - ru');
       }
-      
+      changeLanguageTest();
+    }
   } else if (event.code === 'AltLeft' || event.code === 'AltRight') {
     event.preventDefault();
-      console.log('altvnutri')
-      textBox.focus();
-      isAltDown = true
-      document.querySelector(c).classList.add('active');
-      
-        if (isControlDown === true) {
-          if (lang === 'ru') {
-            lang = 'en';
-            localStorage.setItem(langStorage, 'en');
-            console.log('ru - en')
-          } else {
-            lang = 'ru';
-            localStorage.setItem(langStorage, 'ru');
-            console.log('en - ru')
-          }
-          changeLanguageTest();
-        }
-         
-      } else if (event.code === 'Backspace') {
-        document.querySelector(c).classList.add('active');
-      } else if (event.code === 'Delete') {
-        document.querySelector(c).classList.add('active');
-      } else if (event.code === 'Space') {
-        textBox.value += ' ';
-        document.querySelector(c).classList.add('active');
-        textareaIndex = textBox.selectionStart;
-      } else {
-        event.preventDefault();
-    // console.log(c)
+    console.log('altvnutri');
+    textBox.focus();
+    isAltDown = true;
     document.querySelector(c).classList.add('active');
-    textBox.value += document.querySelector(c).textContent
-    textareaIndex = textBox.selectionStart;
+
+    if (isControlDown === true) {
+      if (lang === 'ru') {
+        lang = 'en';
+        localStorage.setItem(langStorage, 'en');
+        console.log('ru - en');
+      } else {
+        lang = 'ru';
+        localStorage.setItem(langStorage, 'ru');
+        console.log('en - ru');
+      }
+      changeLanguageTest();
+    }
+  } else if (event.code === 'Backspace') {
+    document.querySelector(c).classList.add('active');
+  } else if (event.code === 'Delete') {
+    document.querySelector(c).classList.add('active');
+  } else if (event.code === 'Space') {
+    event.preventDefault();
+    const str = textBox.value;
+    const charsToAdd = ' ';
+    const newStr =
+      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    textBox.value = newStr;
+    textareaIndex += 1;
+    document.querySelector(c).classList.add('active');
+    // textareaIndex = textBox.selectionStart;
+  } else {
+    event.preventDefault();
+    document.querySelector(c).classList.add('active');
+    const str = textBox.value;
+    const charsToAdd = document.querySelector(c).textContent; 
+    const newStr =
+      str.slice(0, textareaIndex) + charsToAdd + str.slice(textareaIndex);
+    textBox.value = newStr;
+    // letterBtn.classList.add('active');
+    textareaIndex += 1;
+    // textBox.value += document.querySelector(c).textContent
+    // textareaIndex = textBox.selectionStart;
   }
 };
 
 // Подсвечивание клавиш при нажатии на клавиатуру
 
-// document.onkeydown = function (event) {
-//   let c = "#" + event.code;
-//    document.querySelector(c).classList.add("active");
-//   // btn
-//   // console.log(btn);
-// };
 document.onkeyup = function (event) {
   const c = `#${event.code}`;
   if (event.code === 'CapsLock') {
     console.log('est');
-  } else if(event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
+  } else if (event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
     document.querySelector(c).classList.remove('active');
     changeShift();
-  if (capsBtn.classList.contains('active')) {
-    allLetterBtn.forEach((letterBtn) => {
-      letterBtn.textContent = letterBtn.textContent.toUpperCase();
-    });
-  }
+    if (capsBtn.classList.contains('active')) {
+      allLetterBtn.forEach((letterBtn) => {
+        letterBtn.textContent = letterBtn.textContent.toUpperCase();
+      });
+    }
   } else if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
-    isControlDown = false
+    isControlDown = false;
     document.querySelector(c).classList.remove('active');
-    
   } else if (event.code === 'AltLeft' || event.code === 'AltRight') {
     document.querySelector(c).classList.remove('active');
-    isAltDown = false
+    isAltDown = false;
     textBox.focus();
   } else {
     document.querySelector(c).classList.remove('active');
   }
-  
-  textBox.focus();
-  // btn
-  // console.log(btn);
 };
-
-// const textarea = document.querySelector('textarea');
-
-
 
 deleteBtn.addEventListener('mousedown', () => {
   deleteBtn.classList.add('active');
   let str = textBox.value;
 
-  str = str.slice(0, textareaIndex) + str.slice(textareaIndex+1);
+  str = str.slice(0, textareaIndex) + str.slice(textareaIndex + 1);
   textBox.value = str;
-})
+});
 
 deleteBtn.addEventListener('mouseup', () => {
   deleteBtn.classList.remove('active');
-})
-
+});
