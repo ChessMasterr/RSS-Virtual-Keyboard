@@ -362,7 +362,7 @@ wrapper.appendChild(textBox);
 
 let textareaIndex = 0;
 textBox.addEventListener('click', () => {
-  console.log(textBox.selectionStart);
+  // console.log(textBox.selectionStart);
   textareaIndex = textBox.selectionStart;
 });
 
@@ -946,8 +946,12 @@ let isAltDown = false;
 document.onkeydown = function (event) {
   // textBox.focus();
   const c = `#${event.code}`;
-  console.log('c', c);
-  if (event.code === 'CapsLock') {
+
+  // console.log('c', c);
+  // console.log(document.querySelector(c));
+  if (document.querySelector(c) === null || document.querySelector(c) === undefined) {
+    console.log('Нет такой кнопки в этой клавиатуре');
+  } else if (event.code === 'CapsLock') {
     event.preventDefault();
     capsBtn.classList.toggle('active');
     if (shiftLeftBtn.classList.contains('active')) {
@@ -1037,17 +1041,16 @@ document.onkeydown = function (event) {
       if (lang === 'ru') {
         lang = 'en';
         localStorage.setItem(langStorage, 'en');
-        console.log('ru - en');
+        // console.log('ru - en');
       } else {
         lang = 'ru';
         localStorage.setItem(langStorage, 'ru');
-        console.log('en - ru');
+        // console.log('en - ru');
       }
       changeLanguageTest();
     }
   } else if (event.code === 'AltLeft' || event.code === 'AltRight') {
     event.preventDefault();
-    console.log('altvnutri');
     textBox.focus();
     isAltDown = true;
     document.querySelector(c).classList.add('active');
@@ -1056,7 +1059,7 @@ document.onkeydown = function (event) {
       if (lang === 'ru') {
         lang = 'en';
         localStorage.setItem(langStorage, 'en');
-        console.log('ru - en');
+        // console.log('ru - en');
       } else {
         lang = 'ru';
         localStorage.setItem(langStorage, 'ru');
@@ -1097,25 +1100,27 @@ document.onkeydown = function (event) {
 
 document.onkeyup = function (event) {
   const c = `#${event.code}`;
-  if (event.code === 'CapsLock') {
-    console.log('est');
-  } else if (event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
-    document.querySelector(c).classList.remove('active');
-    changeShift();
-    if (capsBtn.classList.contains('active')) {
-      allLetterBtn.forEach((letterBtn) => {
-        letterBtn.textContent = letterBtn.textContent.toUpperCase();
-      });
+  if (!(document.querySelector(c) === null || document.querySelector(c) === undefined)) {
+    if (event.code === 'CapsLock') {
+      console.log('est');
+    } else if (event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
+      document.querySelector(c).classList.remove('active');
+      changeShift();
+      if (capsBtn.classList.contains('active')) {
+        allLetterBtn.forEach((letterBtn) => {
+          letterBtn.textContent = letterBtn.textContent.toUpperCase();
+        });
+      }
+    } else if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
+      isControlDown = false;
+      document.querySelector(c).classList.remove('active');
+    } else if (event.code === 'AltLeft' || event.code === 'AltRight') {
+      document.querySelector(c).classList.remove('active');
+      isAltDown = false;
+      textBox.focus();
+    } else {
+      document.querySelector(c).classList.remove('active');
     }
-  } else if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
-    isControlDown = false;
-    document.querySelector(c).classList.remove('active');
-  } else if (event.code === 'AltLeft' || event.code === 'AltRight') {
-    document.querySelector(c).classList.remove('active');
-    isAltDown = false;
-    textBox.focus();
-  } else {
-    document.querySelector(c).classList.remove('active');
   }
 };
 
